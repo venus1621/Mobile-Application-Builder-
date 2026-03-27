@@ -1,0 +1,30 @@
+{
+  "name": "mobile-applciaon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "sync": "npx cap sync",
+    "android:sync": "npx cap sync android",
+    "android:patch-java17": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"(Get-Content 'android\\app\\capacitor.build.gradle') -replace 'JavaVersion.VERSION_21','JavaVersion.VERSION_17' | Set-Content 'android\\app\\capacitor.build.gradle'; (Get-Content 'android\\capacitor-cordova-android-plugins\\build.gradle') -replace 'JavaVersion.VERSION_21','JavaVersion.VERSION_17' | Set-Content 'android\\capacitor-cordova-android-plugins\\build.gradle'\"",
+    "android:generate": "npm run android:sync && npm run android:patch-java17",
+    "open:android": "npx cap open android",
+    "open:ios": "npx cap open ios",
+    "build:apk": "npm run android:generate && cd android && gradlew.bat assembleDebug",
+    "build:apk:release": "npm run android:generate && cd android && gradlew.bat assembleRelease",
+    "build:play": "npm run android:generate && cd android && gradlew.bat bundleRelease"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@capacitor/android": "^8.2.0",
+    "@capacitor/cli": "^8.2.0",
+    "@capacitor/core": "^8.2.0",
+    "@capacitor/ios": "^8.2.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5"
+  }
+}

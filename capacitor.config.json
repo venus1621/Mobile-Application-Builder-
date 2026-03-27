@@ -1,0 +1,30 @@
+{
+  "appId": "com.bahirandelivery.app",
+  "appName": "Bahiran Delivery",
+  "webDir": "www",
+  "server": {
+    "url": "https://app.bahirandelivery.com/pwa/user",
+    "androidScheme": "https",
+    "cleartext": false,
+    "allowNavigation": [
+      "app.bahirandelivery.com"
+    ]
+  },
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false,
+    "appendUserAgent": "WaselApp/1.0"
+  },
+  "ios": {
+    "scrollEnabled": true,
+
+    "allowsLinkPreview": false,
+    "appendUserAgent": "WaselApp/1.0"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  }
+}
