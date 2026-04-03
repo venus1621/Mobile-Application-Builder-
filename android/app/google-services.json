@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "775244867547",
+    "project_id": "bahiran-push-notification",
+    "storage_bucket": "bahiran-push-notification.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:775244867547:android:7a1f1cc7b8e007a4daa9fe",
+        "android_client_info": {
+          "package_name": "com.bahirandelivery.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD9_Eh-Qho-B9lkmxBafjYq1fTUwvfWMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

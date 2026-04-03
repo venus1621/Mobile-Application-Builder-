@@ -3,28 +3,37 @@
   "appName": "Bahiran Delivery",
   "webDir": "www",
   "server": {
-    "url": "https://app.bahirandelivery.com/pwa/user",
     "androidScheme": "https",
+    "errorUrl": "offline.html",
     "cleartext": false,
     "allowNavigation": [
-      "app.bahirandelivery.com"
+      "app.bahirandelivery.com",
+      "checkout.chapa.co",
+      "api.chapa.co"
     ]
   },
   "android": {
     "allowMixedContent": false,
     "captureInput": true,
     "webContentsDebuggingEnabled": false,
-    "appendUserAgent": "WaselApp/1.0"
+    "appendUserAgent": "BahiranDelivery/1.0.2"
   },
   "ios": {
     "scrollEnabled": true,
-
     "allowsLinkPreview": false,
-    "appendUserAgent": "WaselApp/1.0"
+    "appendUserAgent": "BahiranDelivery/1.0.2"
   },
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 0
+    },
+    "PushNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_icon_config_sample",
+      "iconColor": "#f97316",
+      "sound": "default"
     }
   }
 }

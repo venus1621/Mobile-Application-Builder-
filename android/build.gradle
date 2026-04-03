@@ -17,6 +17,19 @@ buildscript {
 
 apply from: "variables.gradle"
 
+// Capacitor plugins may target Java 21; force 17 when the build JDK is 17 (avoids "invalid source release: 21").
+subprojects { subproject ->
+    subproject.afterEvaluate {
+        def androidExt = subproject.extensions.findByName("android")
+        if (androidExt != null) {
+            androidExt.compileOptions {
+                sourceCompatibility JavaVersion.VERSION_17
+                targetCompatibility JavaVersion.VERSION_17
+            }
+        }
+    }
+}
+
 allprojects {
     repositories {
         google()

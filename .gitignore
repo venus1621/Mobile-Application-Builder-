@@ -3,3 +3,6 @@ android/.gradle/
 android/build/
 android/app/build/
 *.log
+
+#Ignore vscode AI rules
+.github\instructions\codacy.instructions.md

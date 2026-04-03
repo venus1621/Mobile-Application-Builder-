@@ -2,18 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Bahiran Delivery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --brown-dark: #3B1A0A;
-      --brown-mid:  #5C2A10;
-      --brown-rich: #7A3B18;
-      --cream:      #F5EFE6;
-      --white:      #FDFAF6;
-      --accent:     #C8651A;
+      --brown-dark:  #3B1A0A;
+      --brown-mid:   #5C2A10;
+      --brown-rich:  #7A3B18;
+      --cream:       #F5EFE6;
+      --cream-soft:  #EDE3D6;
+      --white:       #FDFAF6;
+      --accent:      #C8651A;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,7 +27,7 @@
       color: var(--cream);
     }
 
-    /* grain texture */
+    /* grain */
     body::before {
       content: '';
       position: fixed; inset: 0;
@@ -34,7 +35,7 @@
       pointer-events: none; z-index: 0;
     }
 
-    /* ambient warm glow */
+    /* ambient glow */
     body::after {
       content: '';
       position: fixed;
@@ -45,24 +46,17 @@
       pointer-events: none; z-index: 0;
     }
 
-    /* ── Splash overlay ── */
-    #splash {
-      position: fixed; inset: 0; z-index: 100;
+    .scene {
+      position: relative; z-index: 1;
+      height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: var(--brown-dark);
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      gap: 0;
     }
 
-    #splash.exit {
-      opacity: 0;
-      transform: scale(1.04);
-      pointer-events: none;
-    }
-
-    /* decorative rings */
+    /* ── Outer decorative ring ── */
     .ring-outer {
       position: absolute;
       width: 220px; height: 220px;
@@ -70,14 +64,18 @@
       border: 1px solid rgba(200,101,26,0.12);
       animation: rotateSlow 12s linear infinite;
     }
+
     .ring-outer::before {
       content: '';
       position: absolute;
-      top: -3px; left: 50%; transform: translateX(-50%);
-      width: 6px; height: 6px; border-radius: 50%;
+      top: -3px; left: 50%;
+      transform: translateX(-50%);
+      width: 6px; height: 6px;
+      border-radius: 50%;
       background: var(--accent);
       box-shadow: 0 0 8px var(--accent);
     }
+
     .ring-inner {
       position: absolute;
       width: 170px; height: 170px;
@@ -86,107 +84,130 @@
       animation: rotateSlow 8s linear infinite reverse;
     }
 
-    /* logo */
+    /* ── Logo ── */
     .logo-wrap {
       position: relative;
       width: 130px; height: 130px;
-      margin-bottom: 2.4rem;
-      animation: logoReveal 0.9s cubic-bezier(.22,.68,0,1.15) 0.1s both;
+      margin-bottom: 2.6rem;
     }
+
     .logo-circle {
       width: 130px; height: 130px;
       border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, var(--brown-rich), var(--brown-mid));
       box-shadow:
         0 0 0 2.5px rgba(200,101,26,0.3),
         0 0 50px rgba(200,101,26,0.2),
         0 12px 40px rgba(0,0,0,0.6);
-      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      animation: logoReveal 1s cubic-bezier(.22,.68,0,1.15) 0.2s both;
     }
+
     .logo-circle img {
       width: 100%; height: 100%;
       object-fit: cover;
       border-radius: 50%;
-      display: block;
     }
 
-    /* brand text */
+    /* ── Text ── */
     .brand {
       font-family: 'Playfair Display', serif;
-      font-size: 1.9rem; font-weight: 700;
-      color: var(--white); letter-spacing: 0.02em;
-      animation: textReveal 0.7s cubic-bezier(.22,.68,0,1.1) 0.45s both;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.02em;
+      animation: textReveal 0.7s cubic-bezier(.22,.68,0,1.1) 0.55s both;
     }
+
     .brand span { color: var(--accent); }
 
     .tagline {
-      font-size: 0.7rem; font-weight: 300;
-      letter-spacing: 0.25em; text-transform: uppercase;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
       color: rgba(245,239,230,0.4);
       margin-top: 0.35rem;
-      animation: textReveal 0.7s 0.6s both;
+      animation: textReveal 0.7s 0.7s both;
     }
 
-    /* progress bar */
+    /* ── Loading bar ── */
     .loader-track {
-      position: absolute; bottom: 14vh;
-      width: 140px; height: 2px;
+      position: absolute;
+      bottom: 14vh;
+      width: 140px;
+      height: 2px;
       background: rgba(245,239,230,0.08);
-      border-radius: 2px; overflow: hidden;
-      animation: fadeIn 0.4s 0.9s both;
-    }
-    .loader-fill {
-      height: 100%; width: 0%;
-      background: linear-gradient(90deg, var(--brown-rich), var(--accent));
       border-radius: 2px;
-      box-shadow: 0 0 8px rgba(200,101,26,0.6);
-      transition: width 0.3s ease;
-    }
-
-    /* status text */
-    .status-text {
-      position: absolute; bottom: 10.5vh;
-      font-size: 0.62rem; letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(245,239,230,0.25);
-      animation: fadeIn 0.4s 0.9s both;
-      transition: opacity 0.3s;
-    }
-
-    /* bottom domain */
-    .bottom-label {
-      position: absolute; bottom: 6.5vh;
-      font-size: 0.65rem; letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(245,239,230,0.15);
+      overflow: hidden;
       animation: fadeIn 0.5s 1s both;
     }
 
-    /* keyframes */
+    .loader-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--brown-rich), var(--accent));
+      border-radius: 2px;
+      animation: loadFill 2.2s 1.1s cubic-bezier(.4,0,.2,1) forwards;
+      box-shadow: 0 0 8px rgba(200,101,26,0.6);
+    }
+
+    /* ── Bottom brand ── */
+    .bottom-label {
+      position: absolute;
+      bottom: 9vh;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245,239,230,0.2);
+      animation: fadeIn 0.5s 1s both;
+    }
+
+    /* ── Keyframes ── */
     @keyframes logoReveal {
       from { opacity: 0; transform: scale(0.7) rotate(-8deg); }
       to   { opacity: 1; transform: scale(1) rotate(0deg); }
     }
+
     @keyframes textReveal {
       from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    @keyframes rotateSlow { to { transform: rotate(360deg); } }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    @keyframes rotateSlow {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes loadFill {
+      0%   { width: 0%; }
+      40%  { width: 55%; }
+      70%  { width: 75%; }
+      100% { width: 100%; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+
+    /* ── Exit animation (triggered by JS) ── */
+    .scene.exit {
+      animation: exitFade 0.5s ease-in forwards;
+    }
+
+    @keyframes exitFade {
+      to { opacity: 0; transform: scale(1.04); }
+    }
   </style>
 </head>
 <body>
+  <div class="scene" id="splash">
 
-  <!-- ── Branded Splash (shown during bootstrap.js token fetch) ── -->
-  <div id="splash">
     <div class="ring-outer"></div>
     <div class="ring-inner"></div>
 
     <div class="logo-wrap">
       <div class="logo-circle">
-        <img
-          src="https://res.cloudinary.com/dnafzycea/image/upload/v1774702874/output-smallpngtools_ve2ebh.png"
-          alt="Bahiran Delivery"
-        />
+        <img src="https://res.cloudinary.com/dnafzycea/image/upload/v1774702874/output-smallpngtools_ve2ebh.png" alt="Bahiran Delivery" />
       </div>
     </div>
 
@@ -196,44 +217,28 @@
     <div class="loader-track">
       <div class="loader-fill" id="loaderFill"></div>
     </div>
-    <div class="status-text" id="statusText">Starting up…</div>
+
     <div class="bottom-label">bahirandelivery.com</div>
   </div>
 
-  <script src="/pwa-webview-touch-fix.js"></script>
-  <script type="module" src="/bootstrap.js"></script>
-
   <script>
-    // ── Progress bar driven by bootstrap.js events ──
-    // bootstrap.js calls: window.__splashProgress(pct, label)
-    // and window.__splashDone() when redirecting
-
-    const fill   = document.getElementById('loaderFill')
-    const status = document.getElementById('statusText')
-    const splash = document.getElementById('splash')
-
-    window.__splashProgress = function(pct, label) {
-      fill.style.width = pct + '%'
-      if (label) status.textContent = label
-    }
-
-    window.__splashDone = function() {
-      fill.style.width = '100%'
-      status.textContent = 'Launching…'
+    // Auto-dismiss after load bar completes (~3.5s)
+    // In production, call hideSplash() once your PWA is ready
+    function hideSplash() {
+      const scene = document.getElementById('splash');
+      scene.classList.add('exit');
       setTimeout(() => {
-        splash.classList.add('exit')
-      }, 300)
+        scene.style.display = 'none';
+        // dispatch event so your PWA can listen
+        window.dispatchEvent(new Event('splashHidden'));
+      }, 500);
     }
 
-    // Fallback: animate bar to 80% on its own if bootstrap is slow
-    let auto = 0
-    const autoTick = setInterval(() => {
-      auto = Math.min(auto + 4, 80)
-      if (parseFloat(fill.style.width) < auto) {
-        fill.style.width = auto + '%'
-      }
-      if (auto >= 80) clearInterval(autoTick)
-    }, 200)
+    // Default: hide after 3.5s
+    setTimeout(hideSplash, 3500);
+
+    // Or call immediately when your app signals ready:
+    // window.addEventListener('appReady', hideSplash);
   </script>
 </body>
 </html>
